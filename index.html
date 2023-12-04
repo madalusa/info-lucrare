@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Metode de rezolvare și exemple</title>
+  <style>
+    body {
+      background-color: lightgrey;
+      font-family: Algerian, sans-serif;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <h1>Metode de rezolvare și exemple</h1>
+
+  <h2>Recursia</h2>
+  <p>Recursia este o tehnică de rezolvare a problemelor prin divizarea lor în subprobleme mai mici.</p>
+  <h3>Exemple:</h3>
+  <ol>
+    <li>Calcularea factorialului unui număr.</li>
+    <pre><code>
+      #include &lt;iostream&gt;
+      
+      int factorial(int n) {
+        if (n == 0 || n == 1) {
+          return 1;
+        } else {
+          return n * factorial(n - 1);
+        }
+      }
+      
+      int main() {
+        int numar = 5; // Numărul pentru care se calculează factorialul
+        int rezultat = factorial(numar);
+        std::cout &lt;&lt; "Factorialul lui " &lt;&lt; numar &lt;&lt; " este: " &lt;&lt; rezultat &lt;&lt; std::endl;
+        return 0;
+      }
+        </code></pre>
+    <li>Suma elementelor unei liste.</li>
+    <pre><code>
+      #include &lt;iostream&gt;
+      #include &lt;vector&gt;
+      
+      int sumaLista(const std::vector<int> &lista, int index) {
+        if (index &lt; 0) {
+          return 0;
+        } else {
+          return lista[index] + sumaLista(lista, index - 1);
+        }
+      }
+      
+      int main() {
+        std::vector<int> lista = {1, 2, 3, 4, 5}; 
+        int rezultat = sumaLista(lista, lista.size() - 1);
+        std::cout &lt;&lt; "Suma elementelor din lista este: " &lt;&lt; rezultat &lt;&lt; std::endl;
+        return 0;
+      }
+        </code></pre>
+    <li>Problema turnurilor din Hanoi.</li>
+    <pre><code>
+      #include &lt;iostream&gt;
+      
+      void mutaDisc(int numarDisc, char tijaStart, char tijaAux, char tijaDestinatie) {
+        if (numarDisc == 1) {
+          std::cout &lt;&lt; "Muta discul 1 de pe tija " &lt;&lt; tijaStart &lt;&lt; " pe tija " &lt;&lt; tijaDestinatie &lt;&lt; std::endl;
+          return;
+        }
+      
+        mutaDisc(numarDisc - 1, tijaStart, tijaDestinatie, tijaAux);
+        std::cout &lt;&lt; "Muta discul " &lt;&lt; numarDisc &lt;&lt; " de pe tija " &lt;&lt; tijaStart &lt;&lt; " pe tija " &lt;&lt; tijaDestinatie &lt;&lt; std::endl;
+        mutaDisc(numarDisc - 1, tijaAux, tijaStart, tijaDestinatie);
+      }
+      
+      int main() {
+        int numarDisc = 3; 
+        mutaDisc(numarDisc, 'A', 'B', 'C');
+        return 0;
+      }
+        </code></pre>
+      
+  </ol>
+
+  <h2>Trierea</h2>
+  <p>Trierea este procesul de aranjare a elementelor într-o ordine specifică, cum ar fi crescătoare sau descrescătoare.</p>
+  <h3>Exemple:</h3>
+  <ol>
+    <li>Sortarea unei liste de numere în ordine crescătoare.</li>
+    
+    <pre><code>
+      #include &lt;iostream&gt;
+      #include &lt;vector&gt;
+      
+      void sortareCrescatoare(std::vector<int> &lista) {
+        int lungime = lista.size();
+        for (int i = 1; i &lt; lungime; ++i) {
+          int cheie = lista[i];
+          int j = i - 1;
+      
+          while (j >= 0 && lista[j] > cheie) {
+            lista[j + 1] = lista[j];
+            j = j - 1;
+          }
+          lista[j + 1] = cheie;
+        }
+      }
+      
+      void afisareLista(const std::vector<int> &lista) {
+        for (int numar : lista) {
+          std::cout &lt;&lt; numar &lt;&lt; " ";
+        }
+        std::cout &lt;&lt; std::endl;
+      }
+      
+      int main() {
+        std::vector<int> lista = {12, 5, 7, 3, 9, 2};
+        std::cout &lt;&lt; "Lista initiala: ";
+        afisareLista(lista);
+      
+        sortareCrescatoare(lista);
+      
+        std::cout &lt;&lt; "Lista sortata in ordine crescatoare: ";
+        afisareLista(lista);
+      
+        return 0;
+      }
+        </code></pre>
+    <li>Sortarea alfabetică a unui șir de caractere.</li>
+    <pre><code>
+      #include &lt;iostream&gt;
+      #include &lt;algorithm&gt;
+      #include &lt;string&gt;
+      
+      void sortareAlfabetica(std::string &sir) {
+        std::sort(sir.begin(), sir.end());
+      }
+      
+      int main() {
+        std::string sirCaractere = "hgfedcba"; 
+        std::cout &lt;&lt; "Șirul inițial: " &lt;&lt; sirCaractere &lt;&lt; std::endl;
+      
+        sortareAlfabetica(sirCaractere);
+      
+        std::cout &lt;&lt; "Șirul sortat alfabetic: " &lt;&lt; sirCaractere &lt;&lt; std::endl;
+      
+        return 0;
+      }
+        </code></pre>
+    <li>Sortarea unei liste de obiecte după anumite criterii.</li>
+    <pre><code>
+      #include &lt;iostream&gt;
+      #include &lt;vector&gt;
+      #include &lt;algorithm&gt;
+      
+      class Persoana {
+      public:
+        std::string nume;
+        int varsta;
+      
+        Persoana(std::string nume, int varsta) : nume(nume), varsta(varsta) {}
+      };
+      
+      bool comparareNume(const Persoana &a, const Persoana &b) {
+        return a.nume < b.nume;
+      }
+      
+      bool comparareVarsta(const Persoana &a, const Persoana &b) {
+        return a.varsta < b.varsta;
+      }
+      
+      int main() {
+        std::vector<Persoana> listaPersoane = {
+          {"Alice", 25},
+          {"Bob", 30},
+          {"Claire", 20}
+        };
+      
+        std::sort(listaPersoane.begin(), listaPersoane.end(), comparareNume);
+      
+        std::cout &lt;&lt; "Lista sortată după nume: " &lt;&lt; std::endl;
+        for (const auto &persoana : listaPersoane) {
+          std::cout &lt;&lt; "Nume: " &lt;&lt; persoana.nume &lt;&lt; ", Varsta: " &lt;&lt; persoana.varsta &lt;&lt; std::endl;
+        }
+      
+        std::sort(listaPersoane.begin(), listaPersoane.end(), comparareVarsta);
+      
+        std::cout &lt;&lt; "Lista sortată după vârstă: " &lt;&lt; std::endl;
+        for (const auto &persoana : listaPersoane) {
+          std::cout &lt;&lt; "Nume: " &lt;&lt; persoana.nume &lt;&lt; ", Varsta: " &lt;&lt; persoana.varsta &lt;&lt; std::endl;
+        }
+      
+        return 0;
+      }
+        </code></pre>
+  </ol>
+
+  <h2>Greedy</h2>
+  <p>Algoritmul greedy este o tehnică care alege cea mai bună opțiune la fiecare pas, fără a se uita în viitor.</p>
+  <h3>Exemple:</h3>
+  <ol>
+    <li>Problema ghiozdanelor și selectarea obiectelor pentru a maximiza valoarea, respectând capacitatea.</li>
+    <pre><code>
+      #include &lt;iostream&gt;
+      #include &lt;vector&gt;
+      #include &lt;algorithm&gt;
+      
+      struct Obiect {
+        int greutate;
+        int valoare;
+      };
+      
+      int ghiozdanMaxValoare(const std::vector<Obiect>& obiecte, int capacitate) {
+        int n = obiecte.size();
+        std::vector<std::vector<int>> dp(n + 1, std::vector<int>(capacitate + 1, 0));
+      
+        for (int i = 1; i <= n; ++i) {
+          for (int j = 0; j <= capacitate; ++j) {
+            if (obiecte[i - 1].greutate <= j) {
+              dp[i][j] = std::max(dp[i - 1][j], obiecte[i - 1].valoare + dp[i - 1][j - obiecte[i - 1].greutate]);
+            } else {
+              dp[i][j] = dp[i - 1][j];
+            }
+          }
+        }
+      
+        return dp[n][capacitate];
+      }
+      
+      int main() {
+        std::vector<Obiect> obiecte = {{2, 10}, {3, 7}, {5, 15}, {7, 20}, {1, 5}};
+        int capacitateGhiozdan = 10;
+      
+        int rezultat = ghiozdanMaxValoare(obiecte, capacitateGhiozdan);
+        std::cout &lt;&lt; "Valoarea maximă ce poate fi pusă în ghiozdan: " &lt;&lt; rezultat &lt;&lt; std::endl;
+      
+        return 0;
+      }
+        </code></pre>
+      
+    <li>Algoritmul Dijkstra pentru cel mai scurt drum într-un graf ponderat pozitiv.</li>
+    <pre><code>
+      #include &lt;iostream&gt;
+      #include &lt;vector&gt;
+      #include &lt;queue&gt;
+      #include &lt;limits&gt;
+      
+      #define INF std::numeric_limits<int>::max()
+      
+      void dijkstra(const std::vector<std::vector<std::pair<int, int>>>& graf, int nodStart) {
+        int n = graf.size();
+        std::vector<int> distante(n, INF);
+        std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> pq;
+      
+        distante[nodStart] = 0;
+        pq.push({0, nodStart});
+      
+        while (!pq.empty()) {
+          int u = pq.top().second;
+          int costU = pq.top().first;
+          pq.pop();
+      
+          if (costU != distante[u]) continue;
+      
+          for (const auto& [v, costUV] : graf[u]) {
+            if (distante[u] + costUV < distante[v]) {
+              distante[v] = distante[u] + costUV;
+              pq.push({distante[v], v});
+            }
+          }
+        }
+      
+        std::cout &lt;&lt; "Distanțele minime de la nodul " &lt;&lt; nodStart &lt;&lt; " către toate celelalte noduri sunt: " &lt;&lt; std::endl;
+        for (int i = 0; i < n; ++i) {
+          std::cout &lt;&lt; "Nod " &lt;&lt; i &lt;&lt; ": " &lt;&lt; distante[i] &lt;&lt; std::endl;
+        }
+      }
+      
+      int main() {
+        int n = 6;
+        std::vector<std::vector<std::pair<int, int>>> graf(n);
+      
+        graf[0].push_back({1, 2});
+        graf[0].push_back({2, 5});
+        graf[1].push_back({2, 1});
+        graf[1].push_back({3, 7});
+        graf[2].push_back({3, 2});
+        graf[2].push_back({4, 3});
+        graf[2].push_back({5, 1});
+        graf[3].push_back({4, 2});
+        graf[4].push_back({5, 3});
+      
+        int nodStart = 0;
+        dijkstra(graf, nodStart);
+      
+        return 0;
+      }
+        </code></pre>
+      
+      
+    <li>Problema colorării grafurilor cu cel mai mic număr de culori posibil.</li>
+    <pre><code>
+      #include &lt;iostream&gt;
+      #include &lt;vector&gt;
+      #include &lt;algorithm&gt;
+      
+      void coloreazaGraf(const std::vector&lt;std::vector&lt;int&gt;&gt;& graf) {
+        int n = graf.size();
+        std::vector&lt;int&gt; culori(n, -1);
+      
+        culori[0] = 0;
+      
+        for (int i = 1; i &lt; n; ++i) {
+          std::vector&lt;bool&gt; culoareDisponibila(n, true);
+      
+          for (int j : graf[i]) {
+            if (culori[j] != -1) {
+              culoareDisponibila[culori[j]] = false;
+            }
+          }
+      
+          int c;
+          for (c = 0; c &lt; n; ++c) {
+            if (culoareDisponibila[c]) {
+              break;
+            }
+          }
+      
+          culori[i] = c;
+        }
+      
+        std::cout &lt;&lt; "Culorile nodurilor: " &lt;&lt; std::endl;
+        for (int i = 0; i &lt; n; ++i) {
+          std::cout &lt;&lt; "Nod " &lt;&lt; i &lt;&lt; ": Culoare " &lt;&lt; culori[i] &lt;&lt; std::endl;
+        }
+      }
+      
+      int main() {
+        int n = 5;
+        std::vector&lt;std::vector&lt;int&gt;&gt; graf = {{1, 2},
+                                                      {0, 2, 3},
+                                                      {0, 1, 4},
+                                                      {1, 4},
+                                                      {2, 3}};
+        coloreazaGraf(graf);
+      
+        return 0;
+      }
+        </code></pre>
+  </ol>
+
+  <h2>Backtracking</h2>
+  <p>Backtracking-ul este o tehnică de căutare recursivă a soluțiilor posibile.</p>
+  <h3>Exemple:</h3>
+  <ol>
+    <li>Problema reginelor: plasarea reginelor pe o tablă de șah fără a se amenința reciproc.</li>
+    
+  <pre><code>
+    #include &lt;iostream&gt;
+    #include &lt;vector&gt;
+    
+    bool esteSigur(std::vector&lt;std::vector&lt;int&gt;&gt;& tabla, int rand, int coloana, int N) {
+        // Implementarea functiei esteSigur()
+    }
+    
+    bool plaseazaRegine(std::vector&lt;std::vector&lt;int&gt;&gt;& tabla, int rand, int N) {
+        // Implementarea functiei plaseazaRegine()
+    }
+    
+    void afiseazaSolutie(std::vector&lt;std::vector&lt;int&gt;&gt;& tabla, int N) {
+        // Implementarea functiei afiseazaSolutie()
+    }
+    
+    int main() {
+        // Implementarea functiei main() cu initializarea tablei si apelul functiilor necesare
+    }
+      </code></pre>
+    <li>Generarea tuturor combinațiilor posibile ale unui șir de caractere.</li>
+    
+  <pre><code>
+    #include &lt;iostream&gt;
+    #include &lt;algorithm&gt;
+    
+    void genereazaComb(std::string prefix, std::string sir) {
+        // Implementarea functiei genereazaComb()
+    }
+    
+    int main() {
+        std::string sirCaractere = "ABC"; // Sirul de caractere
+        genereazaComb("", sirCaractere);
+        
+        return 0;
+    }
+      </code></pre>
+    <li>Rezolvarea puzzle-urilor sudoku.</li>
+    <pre><code>
+      #include &lt;iostream&gt;
+      #define N 9
+      
+      bool gasesteCifra(int puzzle[N][N], int &rand, int &coloana) {
+          // Implementarea functiei gasesteCifra()
+      }
+      
+      bool esteSigur(int puzzle[N][N], int rand, int coloana, int cifra) {
+          // Implementarea functiei esteSigur()
+      }
+      
+      bool rezolvaSudoku(int puzzle[N][N]) {
+          // Implementarea functiei rezolvaSudoku()
+      }
+      
+      void afiseazaPuzzle(int puzzle[N][N]) {
+          // Implementarea functiei afiseazaPuzzle()
+      }
+      
+      int main() {
+          // Implementarea functiei main() cu initializarea tablei și apelul funcțiilor necesare
+      }
+        </code></pre>
+  </ol>
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
